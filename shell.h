@@ -2,32 +2,30 @@
 #define SHELL_H
 
 #define BUFSIZE 64
-#define DELIM " "
+#define DELIM " \t\r\n\a"
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
-#include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <limits.h>
-#include <string.h>
 #include <ctype.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
 
-int loop(void);
-char *read_line(void);
+extern char **environ;
+
+void loop(void);
+char *readline(void);
 char **split_line(char *line);
-
+char **get_path();
+int launch(char **args);
+void excution(char *directories, char **args);
 int cd_fun(char **args);
 int exit_fun(char **args);
-int execute(char **args);
-char *get_location(char *command);
 int env_fun(char **args);
 int setenv_fun(char **args);
 int unsetenv_fun(char **args);
-
-extern char **environ;
+int execute(char **args);
 
 #endif

@@ -6,30 +6,18 @@
  * Return: void.
 */
 
-int loop(void)
+void loop(void)
 {
-	int status = 1;
-	char *arg, *cpy;
-	char **args;
+	char *line, **args;
+	int status;
 
-	while (status)
-	{
-		fflush(stdin);
+	do {
 		printf("(: ");
-		arg = read_line();
-		cpy = arg;
-		if (!arg)
-			exit(-1);
-		cpy = strtok(arg, "\n");
-		while (cpy != NULL)
-		{
-			args = split_line(cpy);
-			status = execute(args);
-			cpy = strtok(NULL, "\n");
-		}
-		free(cpy);
-		free(arg);
+		line = readline();
+		args = split_line(line);
+		status = execute(args);
+
+		free(line);
 		free(args);
-	}
-	return (0);
+	} while (status);
 }

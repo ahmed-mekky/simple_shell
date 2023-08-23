@@ -11,43 +11,104 @@
 int execute(char **args)
 {
 	int i;
-	pid_t pid;
-	int status;
-	char *builtin_str[] = {"cd", "exit", "env", "setenv", "unsetenv"};
-
-	int (*builtin_func[]) (char **) = {
-	&cd_fun,
-	&exit_fun,
-	&env_fun,
-	&setenv_fun,
-	&unsetenv_fun
+	char *builtin_str[] = {
+		"cd",
+		"exit",
+		"env",
+		"setenv",
+		"unsetenv"
 	};
-	if (args[0][0] == '.' && args[0][1] == '/')
-	{
-		fprintf(stderr, "): 1: %s: not found\n", args[0]);
-		exit(EXIT_FAILURE);
-	}
+	int (*builtin_func[]) (char **) = {
+		&cd_fun,
+		&exit_fun,
+		&env_fun,
+		&setenv_fun,
+		&unsetenv_fun
+	};
+
 	if (args[0] == NULL)
-	return (1);
-	for (i = 0; i < 2; i++)
+		return (1);
+
+	for (i = 0; i < 5; i++)
 	{
-	if (strcmp(args[0], builtin_str[i]) == 0)
-		return ((*builtin_func[i])(args));
+		if (strcmp(args[0], builtin_str[i]) == 0)
+			return ((*builtin_func[i])(args));
 	}
+
+	return (launch(args));
+}
+
+/**
+ * launch - Launch a process and execute a command
+ * @args: The arguments of the command
+ *
+ * Return: Always returns 1
+ */
+int launch(char **args)
+{
+	char *envp[] = {NULL}, **directories;
+	pid_t pid;
+	char *path;
+	int status, i = 0;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(get_location(args[0]), args, NULL) == -1)
-			perror(")");
+		if (execve(args[0], args, envp) == -1)
+		{
+			directories = get_path();
+			while (directories[i] != NULL)
+			{
+				path = malloc(strlen(directories[i]) + strlen(args[0]) + 2);
+				if (!path)
+				{
+					fprintf(stderr, "Allocation error\n");
+					exit(EXIT_FAILURE);
+				}
+				sprintf(path, "%s/%s", directories[i], args[0]);
+				if (execve(path, args, environ) == 0)
+				{
+					free(path);
+					exit(EXIT_SUCCESS);
+				}
+				i++;
+			}
+			free(directories);
+			exit(127);
+		}
 	}
 	else if (pid < 0)
-	perror(")");
+		perror(")");
 	else
 	{
-	do {
 		waitpid(pid, &status, WUNTRACED);
-	} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		if (WIFEXITED(status) && WEXITSTATUS(status) == 127)
+		{
+			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+			return (127);
+		}
 	}
 	return (1);
+}
+/**
+ * excution - execute the command
+ * @directories: The directories of the command
+ * @args: The arguments of the command
+ */
+void excution(char *directories, char **args)
+{
+	char *path;
+
+	path = malloc(strlen(directories) + strlen(args[0]) + 2);
+	if (!path)
+	{
+		fprintf(stderr, "Allocation error\n");
+		exit(EXIT_FAILURE);
+	}
+	sprintf(path, "%s/%s", directories, args[0]);
+	if (execve(path, args, environ) == 0)
+	{
+		free(path);
+		exit(EXIT_SUCCESS);
+	}
 }

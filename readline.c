@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * read_line - readline from usr.
+ * readline - readline from usr.
  *
  * Return: the line.
 */
 
 
-char *read_line(void)
+char *readline(void)
 {
 	char *line;
 	int len = 0, Buffer = BUFSIZE;

@@ -9,32 +9,37 @@
  * Return: 0 on success.
 */
 
-int main(int __attribute__((unused)) argc, __attribute__((unused))char **argv)
+int main(int argc,char **argv)
 {
-	char *arg, *cpy;
-	char **args;
+	FILE *input_file;
+	char *line = NULL, **args;
+	size_t bufsize = 0;
+	int status = 0;
+
+	(void)argc;
+	(void)argv;
 
 	if (isatty(STDIN_FILENO))
-	{
 		loop();
-	}
 	else
 	{
-		arg = read_line();
-		cpy = strdup(arg);
-		if (!arg)
-			exit(-1);
-		cpy = strtok(arg, " \t\r\n\a");
-		while (cpy != NULL)
+		input_file = stdin;
+		while (getline(&line, &bufsize, input_file) != -1)
 		{
-			args = split_line(cpy);
-			execute(args);
-			cpy = strtok(NULL, " \t\r\n\a");
+			line[strcspn(line, "\n")] = '\0';
+			args = split_line(line);
+			status = execute(args);
+
+			free(args);
+			if (status == 0)
+				break;
 		}
-		free(cpy);
-		free(arg);
-		free(args);
-		return (0);
+
+
+		free(line);
 	}
-	return (0);
+	if (status == 127)
+		return (127);
+	else
+		return (EXIT_SUCCESS);
 }

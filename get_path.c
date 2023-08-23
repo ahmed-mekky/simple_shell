@@ -8,44 +8,39 @@
  * Return: the path with the command
 */
 
-char *get_location(char *command)
+char **get_path(void)
 {
-	char *path, *token, *file_path;
-	int command_length, directory_length;
-	struct stat buffer;
+	char *path, *token, **directories;
+	int bufsize = BUFSIZE, i = 0;
 
 	path = getenv("PATH");
-	if (path)
+	directories = malloc(bufsize * sizeof(char *));
+	if (!directories)
 	{
-		path = strdup(path);
-		command_length = strlen(command);
-		token = strtok(path, ":");
+		fprintf(stderr, "Allocation error\n");
+		exit(EXIT_FAILURE);
+	}
 
-		while (token != NULL)
+	token = strtok(path, ":");
+	while (token != NULL)
+	{
+		directories[i] = token;
+		i++;
+
+		if (i >= bufsize)
 		{
-			directory_length = strlen(token);
-			file_path = malloc(command_length + directory_length + 2);
-			strcpy(file_path, token);
-			strcat(file_path, "/");
-			strcat(file_path, command);
-			strcat(file_path, "\0");
-
-			if (stat(file_path, &buffer) == 0)
+			bufsize += BUFSIZE;
+			directories = realloc(directories, bufsize * sizeof(char *));
+			if (!directories)
 			{
-				free(path);
-				return (file_path);
-			}
-			else
-			{
-				free(file_path);
-				token = strtok(NULL, ":");
+				fprintf(stderr, "Allocation error\n");
+				exit(EXIT_FAILURE);
 			}
 		}
-		free(path);
 
-		if (stat(command, &buffer) == 0)
-			return (command);
-		return (NULL);
+		token = strtok(NULL, ":");
 	}
-	return (NULL);
+
+	directories[i] = NULL;
+	return (directories);
 }
