@@ -9,7 +9,7 @@
  * Return: 0 on success.
 */
 
-int main(void)
+int main(int __attribute__((unused)) argc, __attribute__((unused))char **argv)
 {
 	int n;
 	char *arg;
