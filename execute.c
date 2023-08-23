@@ -20,6 +20,11 @@ int execute(char **args)
 	&exit_fun
 	};
 
+	if (args[0][0] == '.' && args[0][1] == '/')
+		{
+			fprintf(stderr, "): 1: %s: not found\n", args[0]);
+			exit(EXIT_FAILURE);
+		}
 	if (args[0] == NULL)
 	return (1);
 
