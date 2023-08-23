@@ -33,6 +33,7 @@ int main(int __attribute__((unused)) argc, __attribute__((unused))char **argv)
 		execute(args);
 		free(arg);
 		free(args);
+		return (0);
 	}
 	return (n);
 }
