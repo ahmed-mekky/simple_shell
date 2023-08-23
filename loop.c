@@ -9,19 +9,23 @@
 int loop(void)
 {
 	int status = 1;
-	char *str;
-	char **str_arr;
+	char *arg;
+	char **args;
 
 	while (status)
 	{
-		printf(":) ");
-		str = read_line();
-		if (!str)
+		if (isatty(STDIN_FILENO))
+		{
+			write(1, "(: ", 3);
+			fflush(stdout);
+		}
+		arg = read_line();
+		if (!arg)
 			return (-1);
-		str_arr = split_line(str);
-		status = execute(str_arr);
-		free(str);
-		free(str_arr);
+		args = split_line(arg);
+		status = execute(args);
+		free(arg);
+		free(args);
 	}
 	return (0);
 }

@@ -3,7 +3,10 @@
 
 int exit_fun(char **args)
 {
-	return 0;
+	if(!args[1])
+		return (0);
+	else
+		exit(atoi(args[1]));
 }
 
 int cd_fun(char **args)
@@ -13,10 +16,10 @@ int cd_fun(char **args)
 	}
 	else
 	{
-		if (chdir(args[1]) != 0) {
-		perror(")");
-		exit(EXIT_FAILURE);
-	}
+		if (chdir(args[1]) != 0)
+		{
+			perror(")");
+		}
 	}
 	return 1;
 }

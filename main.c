@@ -9,16 +9,30 @@
  * return: 0 on success.
 */
 
-int main(int argc, char **argv)
+int main(void)
 {
 	int n;
+	char *arg;
+	char **args;
+
 	if (isatty(STDIN_FILENO))
 	{
 		n = loop();
 	}
 	else
 	{
-		printf("not hi");
+		if (isatty(STDIN_FILENO))
+		{
+			write(1, "(: ", 3);
+			fflush(stdout);
+		}
+		arg = read_line();
+		if (!arg)
+			return (-1);
+		args = split_line(arg);
+		execute(args);
+		free(arg);
+		free(args);
 	}
 	return (n);
 }

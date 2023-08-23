@@ -2,23 +2,18 @@
 int execute(char **args)
 {
 	int i;
-	pid_t pid, wpid;
+	pid_t pid;
 	int status;
+	char *builtin_str[2] = {"cd","exit"};
+	int (*builtin_func[]) (char **) = {
+	&cd_fun,
+	&exit_fun
+	};
 
 	if (args[0] == NULL)
 	{
 	return 1;
 	}
-
-	char *builtin_str[] = {
-	"cd",
-	"exit"
-	};
-
-	int (*builtin_func[]) (char **) = {
-	&cd_fun,
-	&exit_fun
-	};
 
 	for (i = 0; i < 2; i++)
 	{
@@ -33,7 +28,7 @@ int execute(char **args)
 	{
 		if (execve(get_location(args[0]), args, NULL) == -1)
 		{
-			perror(")");
+			perror(")...");
 		}
 	exit(EXIT_FAILURE);
 	}
@@ -45,7 +40,7 @@ int execute(char **args)
 	{
 	do
 	{
-		wpid = waitpid(pid, &status, WUNTRACED);
+		waitpid(pid, &status, WUNTRACED);
 	}
 	while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
