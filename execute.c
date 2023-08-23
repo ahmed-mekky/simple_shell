@@ -22,7 +22,6 @@ int execute(char **args)
 	&setenv_fun,
 	&unsetenv_fun
 	};
-
 	if (args[0][0] == '.' && args[0][1] == '/')
 	{
 		fprintf(stderr, "): 1: %s: not found\n", args[0]);
@@ -30,7 +29,6 @@ int execute(char **args)
 	}
 	if (args[0] == NULL)
 	return (1);
-
 	for (i = 0; i < 2; i++)
 	{
 	if (strcmp(args[0], builtin_str[i]) == 0)
