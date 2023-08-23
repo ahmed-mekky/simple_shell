@@ -9,19 +9,37 @@
 
 char *read_line(void)
 {
-	char *lineptr = malloc(1024 * sizeof(char));
+	char *line;
+	int len = 0, Buffer = BUFSIZE;
+	char c;
 
-	if (!lineptr)
+	line = malloc(Buffer);
+	if (!line)
 	{
-		perror(")");
-		return (NULL);
+		perror("problem in allocation");
+		exit(EXIT_FAILURE);
 	}
-
-	if (!fgets(lineptr, sizeof(lineptr), stdin))
+	while (1)
 	{
-		perror(")");
-		return (NULL);
+		c = getchar();
+		if (c == '\n' || c == EOF)
+		{
+			line[len] = '\0';
+			return (line);
+		}
+		else
+		{
+			line[len++] = c;
+		}
+		if (len >= Buffer)
+		{
+			Buffer += BUFSIZE;
+			line = realloc(line, Buffer);
+			if (!line)
+			{
+				perror("problem in ");
+				exit(EXIT_FAILURE);
+			}
+		}
 	}
-
-	return (lineptr);
 }
