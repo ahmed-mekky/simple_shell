@@ -14,11 +14,8 @@ int loop(void)
 
 	while (status)
 	{
-		if (isatty(STDIN_FILENO))
-		{
-			write(1, "(: ", 3);
-			fflush(stdout);
-		}
+		fflush(stdin);
+		write(1, "(: ", 3);
 		arg = read_line();
 		if (!arg)
 			return (-1);
