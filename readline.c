@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * loop - make the shell main loop.
+ * read_line - readline from usr.
  *
- * return: int.
+ * Return: the line.
 */
 
 
@@ -23,5 +23,5 @@ char *read_line(void)
 		return (NULL);
 	}
 
-	return lineptr;
+	return (lineptr);
 }

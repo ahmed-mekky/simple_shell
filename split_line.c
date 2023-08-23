@@ -1,17 +1,17 @@
 #include "shell.h"
 
 /**
- * splist_line - split line into words
+ * split_line - split line into words
  *
  * @line: string contains the line to split.
  *
- * return: pointer to array of the words.
+ * Return: pointer to array of the words.
 */
 
 char **split_line(char *line)
 {
 	int bufsize = BUFSIZE, i = 0;
-	char **tokens = malloc(bufsize * sizeof(char*));
+	char **tokens = malloc(bufsize * sizeof(char *));
 	char *token;
 
 	if (!tokens)
@@ -28,7 +28,7 @@ char **split_line(char *line)
 		if (i >= bufsize)
 		{
 			bufsize += BUFSIZE;
-			tokens = realloc(tokens, bufsize * sizeof(char*));
+			tokens = realloc(tokens, bufsize * sizeof(char *));
 			if (!tokens)
 			{
 				fprintf(stderr, "): allocation error\n");
@@ -39,5 +39,5 @@ char **split_line(char *line)
 		token = strtok(NULL, DELIM);
 	}
 	tokens[i] = NULL;
-	return tokens;
+	return (tokens);
 }

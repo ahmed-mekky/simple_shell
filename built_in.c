@@ -1,17 +1,33 @@
 #include "shell.h"
 
+/**
+ * exit_fun - exit shell with number.
+ *
+ * @args: number to exit with
+ *
+ * Return: int.
+*/
 
 int exit_fun(char **args)
 {
-	if(!args[1])
-		return (0);
-	else
+	if (args[1])
 		exit(atoi(args[1]));
+	else
+		return (0);
 }
+
+/**
+ * cd_fun -change current dir.
+ *
+ * @args: name of the new dir
+ *
+ * Return: int.
+*/
 
 int cd_fun(char **args)
 {
-	if (args[1] == NULL) {
+	if (args[1] == NULL)
+	{
 		fprintf(stderr, "): expected argument to \"cd\"\n");
 	}
 	else
@@ -21,5 +37,5 @@ int cd_fun(char **args)
 			perror(")");
 		}
 	}
-	return 1;
+	return (1);
 }

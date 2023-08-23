@@ -3,7 +3,7 @@
 /**
  * loop - make the shell main loop.
  *
- * return: void.
+ * Return: void.
 */
 
 int loop(void)
