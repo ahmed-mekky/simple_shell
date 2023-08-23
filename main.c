@@ -11,7 +11,7 @@
 
 int main(int __attribute__((unused)) argc, __attribute__((unused))char **argv)
 {
-	char *arg;
+	char *arg, *cpy;
 	char **args;
 
 	if (isatty(STDIN_FILENO))
@@ -20,16 +20,18 @@ int main(int __attribute__((unused)) argc, __attribute__((unused))char **argv)
 	}
 	else
 	{
-		if (isatty(STDIN_FILENO))
-		{
-			write(1, "(: ", 3);
-			fflush(stdout);
-		}
 		arg = read_line();
+		cpy = strdup(arg);
 		if (!arg)
-			return (-1);
-		args = split_line(arg);
-		execute(args);
+			exit(-1);
+		cpy = strtok(arg, " \t\r\n\a");
+		while (cpy != NULL)
+		{
+			args = split_line(cpy);
+			execute(args);
+			cpy = strtok(NULL, " \t\r\n\a");
+		}
+		free(cpy);
 		free(arg);
 		free(args);
 		return (0);

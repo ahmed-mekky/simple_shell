@@ -13,11 +13,14 @@ int execute(char **args)
 	int i;
 	pid_t pid;
 	int status;
-	char *builtin_str[2] = {"cd", "exit"};
+	char *builtin_str[] = {"cd", "exit", "env", "setenv", "unsetenv"};
 
 	int (*builtin_func[]) (char **) = {
 	&cd_fun,
-	&exit_fun
+	&exit_fun,
+	&env_fun,
+	&setenv_fun,
+	&unsetenv_fun
 	};
 
 	if (args[0][0] == '.' && args[0][1] == '/')

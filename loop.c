@@ -20,12 +20,12 @@ int loop(void)
 		cpy = arg;
 		if (!arg)
 			exit(-1);
-		cpy = strtok(arg, " \t\r\n\a");
+		cpy = strtok(arg, "\n");
 		while (cpy != NULL)
 		{
 			args = split_line(cpy);
 			status = execute(args);
-			cpy = strtok(NULL, " \t\r\n\a");
+			cpy = strtok(NULL, "\n");
 		}
 		free(cpy);
 		free(arg);
