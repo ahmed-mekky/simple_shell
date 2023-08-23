@@ -16,7 +16,7 @@ char *read_line(void)
 	line = malloc(Buffer);
 	if (!line)
 	{
-		perror("problem in allocation");
+		perror(")");
 		exit(EXIT_FAILURE);
 	}
 	while (1)
@@ -37,7 +37,7 @@ char *read_line(void)
 			line = realloc(line, Buffer);
 			if (!line)
 			{
-				perror("problem in ");
+				perror(")");
 				exit(EXIT_FAILURE);
 			}
 		}

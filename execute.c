@@ -38,8 +38,7 @@ int execute(char **args)
 	if (pid == 0)
 	{
 		if (execve(get_location(args[0]), args, NULL) == -1)
-			perror(")...");
-	exit(EXIT_FAILURE);
+			perror(")");
 	}
 	else if (pid < 0)
 	perror(")");

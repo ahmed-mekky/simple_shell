@@ -9,18 +9,25 @@
 int loop(void)
 {
 	int status = 1;
-	char *arg;
+	char *arg, *cpy;
 	char **args;
 
 	while (status)
 	{
 		fflush(stdin);
-		write(1, "(: ", 3);
+		printf("(: ");
 		arg = read_line();
+		cpy = arg;
 		if (!arg)
-			return (-1);
-		args = split_line(arg);
-		status = execute(args);
+			exit(-1);
+		cpy = strtok(arg, " \t\r\n\a");
+		while (cpy != NULL)
+		{
+			args = split_line(cpy);
+			status = execute(args);
+			cpy = strtok(NULL, " \t\r\n\a");
+		}
+		free(cpy);
 		free(arg);
 		free(args);
 	}
