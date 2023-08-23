@@ -15,7 +15,11 @@ char *get_location(char *command)
 	struct stat buffer;
 
 	path = getenv("PATH");
-
+	if (command[0] == '.')
+		{
+			fprintf(stderr, "): 1: %s: not found\n", command);
+			exit(EXIT_FAILURE);
+		}
 	if (path)
 	{
 		path = strdup(path);
