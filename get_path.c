@@ -1,9 +1,7 @@
 #include "shell.h"
 
 /**
- * get_location - get path location.
- *
- * @command: ....
+ * get_path - get path location.
  *
  * Return: the path with the command
 */

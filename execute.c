@@ -25,16 +25,13 @@ int execute(char **args)
 		&setenv_fun,
 		&unsetenv_fun
 	};
-
 	if (args[0] == NULL)
 		return (1);
-
 	for (i = 0; i < 5; i++)
 	{
 		if (strcmp(args[0], builtin_str[i]) == 0)
 			return ((*builtin_func[i])(args));
 	}
-
 	return (launch(args));
 }
 
@@ -46,12 +43,10 @@ int execute(char **args)
  */
 int launch(char **args)
 {
-	char *envp[] = {NULL}, **directories;
-	pid_t pid;
-	char *path;
+	char *envp[] = {NULL}, **directories, *path;
+	pid_t pid = fork();
 	int status, i = 0;
 
-	pid = fork();
 	if (pid == 0)
 	{
 		if (execve(args[0], args, envp) == -1)
@@ -65,13 +60,12 @@ int launch(char **args)
 					fprintf(stderr, "Allocation error\n");
 					exit(EXIT_FAILURE);
 				}
-				sprintf(path, "%s/%s", directories[i], args[0]);
+				sprintf(path, "%s/%s", directories[i++], args[0]);
 				if (execve(path, args, environ) == 0)
 				{
 					free(path);
 					exit(EXIT_SUCCESS);
 				}
-				i++;
 			}
 			free(directories);
 			exit(127);
