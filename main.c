@@ -11,13 +11,12 @@
 
 int main(int __attribute__((unused)) argc, __attribute__((unused))char **argv)
 {
-	int n;
 	char *arg;
 	char **args;
 
 	if (isatty(STDIN_FILENO))
 	{
-		n = loop();
+		loop();
 	}
 	else
 	{
@@ -35,5 +34,5 @@ int main(int __attribute__((unused)) argc, __attribute__((unused))char **argv)
 		free(args);
 		return (0);
 	}
-	return (n);
+	return (0);
 }
