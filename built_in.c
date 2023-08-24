@@ -5,7 +5,7 @@
  *
  * @args: number to exit with
  *
- * Return: int.
+ * Return: int number.
 */
 
 int exit_fun(char **args)
