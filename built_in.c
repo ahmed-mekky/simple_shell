@@ -17,11 +17,11 @@ int exit_fun(char **args)
 }
 
 /**
- * cd_fun -change current dir.
+ * cd_fun - change current dir.
  *
  * @args: name of the new dir
  *
- * Return: int.
+ * Return: int number.
 */
 
 int cd_fun(char **args)
